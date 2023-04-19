@@ -29,6 +29,15 @@ else
         read -p "How many days do you want to ban IP ? : " ban_days
         read -p "How many ssh auth retry do you want ? : " ssh_maxretry
         cat base_conf/jail.local | sed -e "s/bantime  = 10m/bantime  = $ban_days\d/g;s/maxretry = 5/maxretry = $ssh_maxretry/g" > /etc/fail2ban/jail.d/jail.local
+
+        # iptables configuration
+        if [[ -z $(dpkg -l|grep iptables) ]]; then
+            apt install iptables
+        fi
+
+        cat base_conf/firewall-rules | sed -e "s/--dport 22/--dport $ssh_port/g" > /etc/init.d/firewall-rules 
+        chmod +x /etc/init.d/firewall-rules
+        systemctl enable --now firewall-rules
     # stop the script if distro is not debian based
     else
         echo "it's not debian based you can't use this script !"

@@ -1,0 +1,27 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+
+# On FLUSH tout
+iptables -F
+
+# interdiction de tout par défaut
+iptables -P INPUT DROP
+iptables -P OUTPUT DROP
+iptables -P FORWARD DROP
+#iptables -P PREROUTING DROP
+
+# maintient des connexions existantes
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# loopback
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A OUTPUT -o lo -j ACCEPT
+
+# SSH 
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+
+iptables -A INPUT -p udp --dport 53 -j ACCEPT
+iptables -A OUTPUT -p udp --dport 53 -j ACCEPT
