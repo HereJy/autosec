@@ -12,6 +12,12 @@ else
         read -s -p "user password : " password
         useradd -m -s /bin/bash -p $(echo "$password"|openssl passwd -6 -stdin) $username
         echo ""
+
+        # sshd_config update
+        echo "sshd_config edition"
+        read -p "custom port for ssh : " ssh_port
+        cat base_conf/sshd_config | sed -e "s/Port 22/Port $ssh_port/g;s/?username?/$username/g" > /etc/ssh/sshd_config.d/custom_sshd_config
+        chmod 600 /etc/ssh/sshd_config.d/custom_sshd_config
     # stop the script if distro is not debian based
     else
         echo "it's not debian based you can't use this script !"
