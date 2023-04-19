@@ -18,6 +18,17 @@ else
         read -p "custom port for ssh : " ssh_port
         cat base_conf/sshd_config | sed -e "s/Port 22/Port $ssh_port/g;s/?username?/$username/g" > /etc/ssh/sshd_config.d/custom_sshd_config
         chmod 600 /etc/ssh/sshd_config.d/custom_sshd_config
+
+        # fail2ban configuration
+        echo "fail2ban installation and configuration"
+
+        if [[ -z $(dpkg -l|grep fail2ban) ]]; then
+            apt install fail2ban
+        fi
+
+        read -p "How many days do you want to ban IP ? : " ban_days
+        read -p "How many ssh auth retry do you want ? : " ssh_maxretry
+        cat base_conf/jail.local | sed -e "s/bantime  = 10m/bantime  = $ban_days\d/g;s/maxretry = 5/maxretry = $ssh_maxretry/g" > /etc/fail2ban/jail.d/jail.local
     # stop the script if distro is not debian based
     else
         echo "it's not debian based you can't use this script !"
