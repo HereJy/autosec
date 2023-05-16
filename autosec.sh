@@ -2,7 +2,7 @@
 
 # check if launch as root
 if [[ $EUID -ne "0" ]]; then
-    echo "You have to execute this script as root !"
+    echo -e "\033[0;31mYou have to execute this script as root !\033[0m"
 else
     # check if your distro is debian based
     if [[ -e /etc/debian_version ]]; then
@@ -11,7 +11,6 @@ else
         read -p "username : " username
         read -s -p "user password : " password
         useradd -m -s /bin/bash -p $(echo "$password"|openssl passwd -6 -stdin) $username
-        echo ""
 
         # sshd_config update
         echo "sshd_config edition"
