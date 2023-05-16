@@ -53,8 +53,8 @@ else
         fi
 
 
-        #chmod +x /etc/init.d/firewall-rules
-        #systemctl enable --now firewall-rules
+        chmod +x /etc/init.d/firewall-rules
+        systemctl enable --now firewall-rules
     # stop the script if distro is not debian based
     else
         echo "it's not debian based you can't use this script !"
