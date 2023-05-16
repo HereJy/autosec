@@ -57,6 +57,6 @@ else
         systemctl enable --now firewall-rules
     # stop the script if distro is not debian based
     else
-        echo "it's not debian based you can't use this script !"
+        echo -e "\033[0;31mit's not debian based you can't use this script !\033[0m"
     fi
 fi
