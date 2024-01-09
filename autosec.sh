@@ -15,7 +15,7 @@ else
         # sshd_config update
         echo -e "\nsshd_config edition"
         read -p "custom port for ssh : " ssh_port
-        cat base_conf/sshd_config | sed -e "s/Port 22/Port $ssh_port/g;s/?username?/$username/g" > /etc/ssh/sshd_config.d/custom_sshd_config
+        cat base_conf/sshd_config | sed -e "s/Port 22/Port $ssh_port/g;s/?username?/$username/g" > /etc/ssh/sshd_config.d/custom_sshd_config.conf
         chmod 600 /etc/ssh/sshd_config.d/custom_sshd_config
 
         # fail2ban configuration
